@@ -2,48 +2,40 @@ const steamUser = require('steam-user');
 const steamTotp = require('steam-totp');
 const keep_alive = require('./keep_alive.js')
 
-var username = process.env.username;
-var password = process.env.password;
-var shared_secret = process.env.shared;
+var usernames = [
+    process.env.username1, process.env.username2, process.env.username3, process.env.username4,
+    process.env.username5, process.env.username6, process.env.username7, process.env.username8,
+    process.env.username9, process.env.username10, process.env.username11, process.env.username12,
+    process.env.username13, process.env.username14, process.env.username15, process.env.username16
+];
 
-var games = [730, 570];  // Enter here AppIDs of the needed games
+var passwords = [
+    process.env.password1, process.env.password2, process.env.password3, process.env.password4,
+    process.env.password5, process.env.password6, process.env.password7, process.env.password8,
+    process.env.password9, process.env.password10, process.env.password11, process.env.password12,
+    process.env.password13, process.env.password14, process.env.password15, process.env.password16
+];
+
+var shared_secrets = [
+    process.env.shared1, process.env.shared2, process.env.shared3, process.env.shared4,
+    process.env.shared5, process.env.shared6, process.env.shared7, process.env.shared8,
+    process.env.shared9, process.env.shared10, process.env.shared11, process.env.shared12,
+    process.env.shared13, process.env.shared14, process.env.shared15, process.env.shared16
+];
+
+var games = [730, 570, 440, 2073850, 2357570];  // Enter here AppIDs of the needed games
 var status = 1;  // 1 - online, 7 - invisible
 
-user = new steamUser();
-user.logOn({"accountName": username, "password": password, "twoFactorCode": steamTotp.generateAuthCode(shared_secret)});
-user.on('loggedOn', () => {
-	if (user.steamID != null) console.log(user.steamID + ' - Successfully logged on');
-	user.setPersona(status);               
-	user.gamesPlayed(games);
-});
-
-
-var username2 = process.env.username2;
-var password2 = process.env.password2;
-var shared_secret2 = process.env.shared2;
-
-var games2 = [730, 570];  // Enter here AppIDs of the needed games
-var status2 = 1;  // 1 - online, 7 - invisible
-
-user2 = new steamUser();
-user2.logOn({"accountName": username2, "password": password2, "twoFactorCode": steamTotp.generateAuthCode(shared_secret2)});
-user2.on('loggedOn', () => {
-	if (user2.steamID != null) console.log(user2.steamID + ' - Successfully logged on');
-	user2.setPersona(status2);               
-	user2.gamesPlayed(games2);
-});
-
-var username3 = process.env.username3;
-var password3 = process.env.password3;
-var shared_secret3 = process.env.shared3;
-
-var games3 = [730, 570];  // Enter here AppIDs of the needed games for user3
-var status3 = 1;  // 1 - online, 7 - invisible
-
-user3 = new steamUser();
-user3.logOn({"accountName": username3, "password": password3, "twoFactorCode": steamTotp.generateAuthCode(shared_secret3)});
-user3.on('loggedOn', () => {
-	if (user3.steamID != null) console.log(user3.steamID + ' - Successfully logged on');
-	user3.setPersona(status3);               
-	user3.gamesPlayed(games3);
-});
+for (let i = 0; i < usernames.length; i++) {
+    let user = new steamUser();
+    user.logOn({
+        "accountName": usernames[i],
+        "password": passwords[i],
+        "twoFactorCode": steamTotp.generateAuthCode(shared_secrets[i])
+    });
+    user.on('loggedOn', () => {
+        if (user.steamID != null) console.log(user.steamID + ' - Successfully logged on');
+        user.setPersona(status);               
+        user.gamesPlayed(games);
+    });
+}
